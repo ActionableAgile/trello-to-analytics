@@ -1,0 +1,30 @@
+{
+  "name": "trello-to-analytics",
+  "version": "0.0.1",
+  "description": "Import Trello data into ActionableAnalytics flow analysis tool",
+  "main": "index.js",
+  "repository": {
+    "url": "https://github.com/ActionableAgile/trello-to-analytics.git",
+    "type": "git"
+  },
+  "author": "John Johnson <johnrjj@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "js-yaml": "^3.7.0",
+    "progress": "^1.1.8",
+    "ramda": "^0.22.1",
+    "yargs": "^6.5.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/isomorphic-fetch": "^0.0.31",
+    "@types/js-yaml": "^3.5.28",
+    "@types/mocha": "^2.2.33",
+    "@types/progress": "^1.1.28",
+    "@types/ramda": "^0.0.2",
+    "@types/yargs": "^6.3.3",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}
