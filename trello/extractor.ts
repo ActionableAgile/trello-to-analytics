@@ -14,18 +14,17 @@ import {
   getBoardInformation,
   getBoardHistory,
   getBoardCards
-} from './helpers';
+} from './api';
 
 class TrelloExtractor {
   private config: TrelloConfig = null;
   private key: string = null;
   private token: string = null;
-  private baseUrl: string = 'https://api.trello.com';
+  private readonly baseUrl: string = 'https://api.trello.com';
 
   constructor(config: TrelloConfig) {
     this.key = config.key;
     this.token = config.token;
-    this.config = config;
   }
 
   public async getAuthedUsersProjects(): Promise<Board[]> {
@@ -41,7 +40,7 @@ class TrelloExtractor {
   }
 
   public async getBoardCards(boardId: string): Promise<Card[]> {
-    const cards: Card[] = await getBoardCards(boardId, this.baseUrl, {key: this.key, token: this.token });
+    const cards: Card[] = await getBoardCards(boardId, this.baseUrl, { key: this.key, token: this.token });
     if (cards.length >= 1000) {
       console.warn(`Warning, api fetching cards is capped at 1000, and we detect you may have more than that`);
     }
@@ -55,11 +54,10 @@ class TrelloExtractor {
                                     .map(addMoreDetailsToCardEventLog)
                                     .map(card => addStagingDates(card, workflow))
                                     .map(convertCardToWorkItem);
-
     const csvString = toCSV(workItems, Object.keys(workflow), {}, `${this.baseUrl}/c`);
     return csvString;
   }
-}
+};
 
 
 // Move these out of here...
@@ -89,10 +87,7 @@ const addStagingDates = (card: Card, workflow: Workflow): Card => {
   const { uncategorized } = eventsByStageCategory;
   delete eventsByStageCategory['uncategorized'];
 
-  const initialized= Object.keys(workflow).map(key => initialized[key] = []);
-  // Object.keys(workflow).map(key => {
-  //   initialized[key] = [];
-  // });
+  const initialized = Object.keys(workflow).map(key => initialized[key] = []);
 
   // combine defaults and events, (fills in empty workflow categories with empty array [])
   const allStageCategoriesWithAllEvents = Object.assign(initialized, eventsByStageCategory);
