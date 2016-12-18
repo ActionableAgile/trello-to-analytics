@@ -1,66 +1,6 @@
 import { groupBy } from 'ramda';
-import { WorkItem, IWorkItem } from '../work-item';
-import {
-  Workflow,
-  ActionsByWorkflow,
-  Card,
-  Board,
-  Action,
-  TrelloConfig,
-} from './types';
-import { toCSV } from './exporter';
-import {
-  getBoardsFromAuthedUserUrl,
-  getBoardInformation,
-  getBoardHistory,
-  getBoardCards
-} from './api';
+import { Card, Workflow, Action, ActionsByWorkflow } from './types';
 
-class TrelloExtractor {
-  private config: TrelloConfig = null;
-  private key: string = null;
-  private token: string = null;
-  private readonly baseUrl: string = 'https://api.trello.com';
-
-  constructor(config: TrelloConfig) {
-    this.key = config.key;
-    this.token = config.token;
-  }
-
-  public async getAuthedUsersProjects(): Promise<Board[]> {
-    return await getBoardsFromAuthedUserUrl(this.baseUrl, { key: this.key, token: this.token });
-  }
-
-  public async getBoard(boardId: string) {
-    return await getBoardInformation(boardId, this.baseUrl, { key: this.key, token: this.token });
-  }
-
-  public async getBoardHistory(boardId: string) {
-    return await getBoardHistory(boardId, this.baseUrl, { key: this.key, token: this.token });
-  }
-
-  public async getBoardCards(boardId: string): Promise<Card[]> {
-    const cards: Card[] = await getBoardCards(boardId, this.baseUrl, { key: this.key, token: this.token });
-    if (cards.length >= 1000) {
-      console.warn(`Warning, api fetching cards is capped at 1000, and we detect you may have more than that`);
-    }
-    return cards;
-  }
-
-  public async extractToCSV(boardId: string = '57182b1cbc0e38c4bf22beb1') {
-    const { workflow } = this.config;
-    const boardCards: Card[] = await getBoardCards(boardId, this.baseUrl, { key: this.key, token: this.token });
-    const workItems: IWorkItem[] = boardCards
-                                    .map(addMoreDetailsToCardEventLog)
-                                    .map(card => addStagingDates(card, workflow))
-                                    .map(convertCardToWorkItem);
-    const csvString = toCSV(workItems, Object.keys(workflow), {}, `${this.baseUrl}/c`);
-    return csvString;
-  }
-};
-
-
-// Move these out of here...
 const addStagingDates = (card: Card, workflow: Workflow): Card => {
   // CARD context...
   // note, because we are using groupBy, you can't have an event in two different stage categories
@@ -87,7 +27,8 @@ const addStagingDates = (card: Card, workflow: Workflow): Card => {
   const { uncategorized } = eventsByStageCategory;
   delete eventsByStageCategory['uncategorized'];
 
-  const initialized = Object.keys(workflow).map(key => initialized[key] = []);
+  const initialized = {};
+  Object.keys(workflow).map(key => initialized[key] = []);
 
   // combine defaults and events, (fills in empty workflow categories with empty array [])
   const allStageCategoriesWithAllEvents = Object.assign(initialized, eventsByStageCategory);
@@ -108,36 +49,21 @@ const addStagingDates = (card: Card, workflow: Workflow): Card => {
   return Object.assign({}, card, { stagingDates });
 };
 
-const addMoreDetailsToCardEventLog = (c: Card): Card => {
+const addMoreDetailToCardEventLog = (c: Card): Card => {
   const actions = c.actions.map(appendListToAction);
   return Object.assign({}, c, { actions });
-};
-
-// REFACTOR THIS....CODE SEMLL
-const convertCardToWorkItem = (card: Card): IWorkItem => {
-  return new WorkItem(card.id, card['stagingDates'], card.name, '', {}, 'TRELLO');
 };
 
 const fillOutMissingCategoriesWithEmptyArraysAndSort = (eventsByStageCategory: ActionsByWorkflow, completeWorkflow: Workflow) => {
   const sortedEventsByStageCategory: ActionsByWorkflow = {};
   Object.keys(completeWorkflow).forEach(stageCategory => {
-    sortedEventsByStageCategory[stageCategory] = eventsByStageCategory[stageCategory]
-      ? eventsByStageCategory[stageCategory]
-      : [];
+    // sortedEventsByStageCategory[stageCategory] = eventsByStageCategory[stageCategory] ? eventsByStageCategory[stageCategory] : [];
+    sortedEventsByStageCategory[stageCategory] = eventsByStageCategory[stageCategory] || [];
   });
   return sortedEventsByStageCategory;
 };
 
-const sortByWorklowCategory = (workflow) => (a, b) => {
-  // in original order (straight from config...)
-  const workflowCategories = Object.keys(workflow);
-  const aIndex = workflowCategories.indexOf(a) !== -1 ? workflowCategories.indexOf(a) : Number.MAX_SAFE_INTEGER;
-  const bIndex = workflowCategories.indexOf(b) !== -1 ? workflowCategories.indexOf(b) : Number.MAX_SAFE_INTEGER;
-  return aIndex - bIndex;
-};
-
-const sortObject = (sortFn) => (o) => Object.keys(o).sort(sortFn).reduce((r, k) => (r[k] = o[k], r), {});
-
+// You can treat this as a black box that just fills up the staging bins.
 const filterAndFlattenStagingDates = (stageBins: string[][]) => {
   let latestValidIssueDateSoFar: string = '';
   const stagingDates = stageBins.map((stageBin: string[], idx: number) => {
@@ -175,15 +101,16 @@ const appendListToAction = (action: Action) => {
       //      old: { idList: '5718314ceec0298d2f7d9e43' } }, }
     }
   } else if (action.type === 'createCard') {
-    // Card being created in certain list
-    list = action.data.list;
-    //   data: { list: { name: 'In Development', id: '5718314ceec0298d2f7d9e43' }, ... }
+      // Card being created in certain list
+      list = action.data.list;
+      //   data: { list: { name: 'In Development', id: '5718314ceec0298d2f7d9e43' }, ... }
   } else {
-    console.warn(`Unclassified action type: ${action.type}. Please report this to the owner of the code. This event will not be counted`, action);
+    console.warn(`Unclassified action type: ${action.type} detected. This event will not be counted`, action);
   }
   return Object.assign({}, action, { list });
 };
 
 export {
-  TrelloExtractor,
+  addMoreDetailToCardEventLog,
+  addStagingDates,
 };

@@ -2,3 +2,7 @@ node_modules
 secret.txt
 trello-config.yaml
 trello-test.yaml
+dist
+config.yaml
+.vscode
+output.csv

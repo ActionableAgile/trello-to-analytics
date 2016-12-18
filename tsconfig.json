@@ -2,11 +2,13 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
+        "outDir": "dist",
         "noImplicitAny": false,
-        "sourceMap": false,
+        "sourceMap": true,
         "lib": [
+            "dom",
             "es6",
             "es7"
-        ]   
+        ]
     }
 }

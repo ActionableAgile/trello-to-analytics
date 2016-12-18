@@ -1,1 +1,1 @@
-export { TrelloExtractor } from './trello/extractor';
+export { TrelloExtractor } from './src/extractor';

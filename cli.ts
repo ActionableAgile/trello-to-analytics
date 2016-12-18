@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as ProgressBar from 'progress';
 import { safeLoad, safeDump } from 'js-yaml';
 import { argv } from 'yargs';
-import { TrelloExtractor } from './trello/extractor';
+import { TrelloExtractor } from './src/extractor';
 
 const defaultYamlPath = 'config.yaml';
 const defaultOutputPath = 'output.csv';
