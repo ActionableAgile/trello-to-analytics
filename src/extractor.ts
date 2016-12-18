@@ -1,23 +1,7 @@
-import { 
-  WorkItem,   
-  createWorkItem,
-  workItemToCSV
-} from './work-item';
-import {
-  Workflow,
-  Card,
-  Board,
-  TrelloConfig,
-} from './types';
-import {
-  addMoreDetailToCardEventLog,
-  addStagingDates,
-} from './helper';
-import {
-  getBoardsFromAuthedUserUrl,
-  getBoardHistory,
-  getBoardCards
-} from './api';
+import { WorkItem, createWorkItem, workItemToCSV } from './work-item';
+import { addMoreDetailToCardEventLog, addStagingDates } from './helper';
+import { getBoardsFromAuthedUserUrl, getBoardHistory, getBoardCards } from './api';
+import { Workflow, Card, Board, TrelloConfig } from './types';
 
 class TrelloExtractor {
   private readonly baseUrl: string = 'https://api.trello.com';
