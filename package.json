@@ -1,6 +1,6 @@
 {
   "name": "trello-to-analytics",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Import Trello data into ActionableAnalytics flow analysis tool",
   "main": "index.js",
   "repository": {
