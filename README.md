@@ -10,7 +10,7 @@ The purpose of this software is to extract flow data from Trello and put that da
 
 ### Getting your key and token
 
-First you will need to acquire a 
+First you will need to acquire a key and a token.
 
 * [Generate your developer key][devkey].
 * Generate the token by going to `https://trello.com/1/authorize?expiration=never&scope=read&response_type=token&name=ActionableAgile%20Trello%20Analytics%20Extractor&key=KEYHERE` replacing, of course, &lt;KEYHERE&gt; with the public key obtained in the first step. Follow the prompt to authorize the application, then you will be given the token.
