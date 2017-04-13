@@ -1,0 +1,20 @@
+# For Key and Token: https://github.com/ActionableAgile/trello-to-analytics/blob/master/README.md
+Key: <KEY HERE>
+Token: <TOKEN HERE>
+# For BoardId https://trello.com/b/<BoardId>/<BoardName>
+BoardId: <BOARD ID HERE>
+# NOTE: this is an optional config, remove if you don't want to limit data extraction
+StartDate: 1-1-2017  
+
+# The workflow can be configured by specifying the STAGE LABEL and the Trello lists associated with that stage.  
+# NOTE: you can specify list names either explicitly setting them or by providing a regex expression preceded by /
+#
+# i.e. 
+# Workflow: 
+#    EXAMPLE STAGE  : [ "LIST 1 NAME", "\REGEX FOR LIST NAME", .... , "LIST N NAME" ]
+# 
+Workflow:
+  Backlog: Backlog
+  Request: Request
+  Doing: ['Doing', 'Waiting for delivery']
+  Done: ["/[Ww]eek of"]
