@@ -1,6 +1,20 @@
 import { groupBy } from 'ramda';
 import { Card, Workflow, Action, ActionsByWorkflow } from './types';
 
+const hasRegexMatch = (candidates: string[], actionName) => {
+  let found = false;
+  for(let candidate of candidates){
+    if(candidate.indexOf('/') !== 0) continue;
+
+    if(actionName.match(candidate.substring(1,candidate.length)) != null){
+      found = true;
+      break;
+    }
+  }
+
+  return found;
+}
+
 const addStagingDates = (card: Card, workflow: Workflow): Card => {
   // CARD context...
   // note, because we are using groupBy, you can't have an event in two different stage categories
@@ -17,7 +31,7 @@ const addStagingDates = (card: Card, workflow: Workflow): Card => {
   const eventsByStageCategory = groupBy(action => {
     for (let stageCategory in workflow) {
       const listsForThisStage = workflow[stageCategory];
-      if (listsForThisStage.includes(action.list.name)) {
+      if (listsForThisStage.includes(action.list.name) || hasRegexMatch(listsForThisStage, action.list.name)) {
         return stageCategory;
       }
     }
