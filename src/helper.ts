@@ -2,11 +2,11 @@ import { groupBy } from 'ramda';
 import { Card, Workflow, Action, ActionsByWorkflow } from './types';
 
 const hasRegexMatch = (candidates: string[], actionName) => {
-  for(let candidate of candidates){
-    if(candidate.indexOf('/') !== 0) continue;
+  for (let candidate of candidates) {
+    if (candidate.indexOf('/') !== 0) continue;
 
     let trimmedRegex = candidate.substring(1,candidate.length);
-    if(actionName.match(trimmedRegex) != null){
+    if (actionName.match(trimmedRegex) != null) {
       return true;
     }
   }
