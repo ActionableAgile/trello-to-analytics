@@ -8,8 +8,10 @@ class TrelloExtractor {
   private key: string;
   private token: string;
   private workflow: Workflow;
+  private startDate: string;
 
   constructor(config: TrelloConfig) {
+    this.startDate = config.startDate;
     this.key = config.key;
     this.token = config.token;
     this.workflow = config.workflow;
@@ -33,7 +35,10 @@ class TrelloExtractor {
 
   public async extractToCSV(boardId: string) {
     const workflow: Workflow = this.workflow;
-    const boardCards: Card[] = await getBoardCards(boardId, this.baseUrl, { key: this.key, token: this.token });
+    const options = { key: this.key, token: this.token }
+    if(this.startDate) options['since'] = this.startDate;
+    
+    const boardCards: Card[] = await getBoardCards(boardId, this.baseUrl, options);
     const workItems: WorkItem[] = boardCards
                                     .map(addMoreDetailToCardEventLog)
                                     .map(card => addStagingDates(card, workflow))
