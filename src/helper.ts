@@ -2,17 +2,16 @@ import { groupBy } from 'ramda';
 import { Card, Workflow, Action, ActionsByWorkflow } from './types';
 
 const hasRegexMatch = (candidates: string[], actionName) => {
-  let found = false;
   for(let candidate of candidates){
     if(candidate.indexOf('/') !== 0) continue;
 
-    if(actionName.match(candidate.substring(1,candidate.length)) != null){
-      found = true;
-      break;
+    let trimmedRegex = candidate.substring(1,candidate.length);
+    if(actionName.match(trimmedRegex) != null){
+      return true;
     }
   }
 
-  return found;
+  return false;
 }
 
 const addStagingDates = (card: Card, workflow: Workflow): Card => {
