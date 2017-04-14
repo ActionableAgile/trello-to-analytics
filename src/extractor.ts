@@ -36,7 +36,9 @@ class TrelloExtractor {
   public async extractToCSV(boardId: string) {
     const workflow: Workflow = this.workflow;
     const options = { key: this.key, token: this.token }
-    if(this.startDate) options['since'] = this.startDate;
+    if (this.startDate) {
+      options['since'] = this.startDate;
+    }
     
     const boardCards: Card[] = await getBoardCards(boardId, this.baseUrl, options);
     const workItems: WorkItem[] = boardCards
