@@ -4,6 +4,7 @@ import { Board, Card, BoardHistory } from './types';
 interface IOptions {
   key: string;
   token: string;
+  since?: string;
   [option: string]: any;
 };
 

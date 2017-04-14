@@ -36,6 +36,7 @@ export interface ActionsByWorkflow {
 };
 
 export interface TrelloConfig {
+  startDate: string;
   workflow: Workflow;
   key: string;
   token: string;

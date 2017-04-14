@@ -17,7 +17,7 @@ First you will need to acquire a key and a token.
 
 [devkey]: https://trello.com/1/appKey/generate
 
-Next, fill out the Key and Token in the *config.yaml* configuration file.
+Next, fill out the Key and Token in the *config.yaml* configuration file.  You can use the `example_config.yaml` to get the basic structure of the configuration file.
 
 ## Running the Tool
 

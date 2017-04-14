@@ -46,6 +46,7 @@ const run = async function(cliArgs: any): Promise<void> {
   if (!settings.BoardId) throw new Error('Trello BoardId not set!');
 
   const trelloExtractor = new TrelloExtractor({
+    startDate: settings.StartDate,
     workflow: settings.Workflow,
     key: settings.Key,
     token: settings.Token,
