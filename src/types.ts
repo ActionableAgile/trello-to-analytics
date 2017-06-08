@@ -4,12 +4,16 @@ export interface Board {
   url: string;
 };
 
+export interface Label {
+  name: string;
+}
+
 export interface Card {
   id: string;
   due: string;
   closed: boolean;
   name: string;
-  labels: Array<any>;
+  labels: Array<Label>;
   url: string;
   actions: Array<Action>;
 };

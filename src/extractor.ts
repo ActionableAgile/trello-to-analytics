@@ -1,7 +1,7 @@
 import { WorkItem, createWorkItem, workItemToCSV } from './work-item';
 import { addMoreDetailToCardEventLog, addStagingDates } from './helper';
 import { getBoardsFromAuthedUserUrl, getBoardHistory, getBoardCards } from './api';
-import { Workflow, TypesConfig, Card, Board, TrelloConfig } from './types';
+import { Workflow, TypesConfig, Card, Label, Board, TrelloConfig } from './types';
 
 class TrelloExtractor {
   private readonly baseUrl: string = 'https://api.trello.com';
@@ -56,7 +56,12 @@ class TrelloExtractor {
     return csv;
   }
 
-  mapLabelsToType(labels: Array<string>) {
+  mapLabelsToType(labels: Array<Label>) {
+    for(let label of labels) {
+      if(this.typesConfig.labels.indexOf(label.name) >= 0) {
+        return label.name;
+      } 
+    }
     return this.typesConfig.default;
   }
 
