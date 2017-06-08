@@ -31,6 +31,11 @@ export interface Workflow {
   [category: string]: Array<string>;
 };
 
+export interface TypesConfig {
+  default: string;
+  labels: Array<string>;
+};
+
 export interface ActionsByWorkflow {
   [workflowCategory: string]: Array<Action>;
 };
@@ -40,6 +45,7 @@ export interface TrelloConfig {
   workflow: Workflow;
   key: string;
   token: string;
+  types: TypesConfig;
 };
 
 export interface BoardHistory { 

@@ -1,7 +1,7 @@
 import { WorkItem, createWorkItem, workItemToCSV } from './work-item';
 import { addMoreDetailToCardEventLog, addStagingDates } from './helper';
 import { getBoardsFromAuthedUserUrl, getBoardHistory, getBoardCards } from './api';
-import { Workflow, Card, Board, TrelloConfig } from './types';
+import { Workflow, TypesConfig, Card, Board, TrelloConfig } from './types';
 
 class TrelloExtractor {
   private readonly baseUrl: string = 'https://api.trello.com';
@@ -9,12 +9,14 @@ class TrelloExtractor {
   private token: string;
   private workflow: Workflow;
   private startDate: string;
+  private typesConfig: TypesConfig;
 
   constructor(config: TrelloConfig) {
     this.startDate = config.startDate;
     this.key = config.key;
     this.token = config.token;
     this.workflow = config.workflow;
+    this.typesConfig = config.types;
   }
 
   public async getAuthedUsersProjects(): Promise<Board[]> {
@@ -44,7 +46,7 @@ class TrelloExtractor {
     const workItems: WorkItem[] = boardCards
                                     .map(addMoreDetailToCardEventLog)
                                     .map(card => addStagingDates(card, workflow))
-                                    .map(card => convertCardToWorkItem(card, this.baseUrl));
+                                    .map(card => this.convertCardToWorkItem(card));
 
     const csvHeader: string = `ID,Link,Name,${Object.keys(workflow).join(',')},Type`;
     const csvBody: string = workItems
@@ -53,17 +55,22 @@ class TrelloExtractor {
     const csv: string = `${csvHeader}\n${csvBody}`;
     return csv;
   }
+
+  mapLabelsToType(labels: Array<string>) {
+    return this.typesConfig.default;
+  }
+
+  convertCardToWorkItem(c: Card) {
+    return createWorkItem({
+      id: c.id,
+      name: c.name,
+      stageDates: c['stagingDates'],
+      domainUrl: this.baseUrl,
+      type: this.mapLabelsToType(c.labels),
+    });
+  };
 };
 
-const convertCardToWorkItem = (c: Card, domainUrl: string): WorkItem => {
-  return createWorkItem({
-    id: c.id,
-    name: c.name,
-    stageDates: c['stagingDates'],
-    domainUrl,
-    type: 'Card',
-  });
-};
 
 export {
   TrelloExtractor,

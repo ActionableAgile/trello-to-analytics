@@ -50,6 +50,7 @@ const run = async function(cliArgs: any): Promise<void> {
     workflow: settings.Workflow,
     key: settings.Key,
     token: settings.Token,
+    types: settings.Types,
   });
   
   const output: string = await trelloExtractor.extractToCSV(settings.BoardId);
