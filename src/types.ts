@@ -16,6 +16,7 @@ export interface Card {
   labels: Array<Label>;
   url: string;
   actions: Array<Action>;
+  shortUrl: string;
 };
 
 export interface Action {

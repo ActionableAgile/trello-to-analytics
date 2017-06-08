@@ -70,7 +70,7 @@ class TrelloExtractor {
       id: c.id,
       name: c.name,
       stageDates: c['stagingDates'],
-      domainUrl: this.baseUrl,
+      url: c.shortUrl,
       type: this.mapLabelsToType(c.labels),
     });
   };
