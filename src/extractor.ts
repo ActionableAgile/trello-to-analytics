@@ -61,7 +61,7 @@ const convertCardToWorkItem = (c: Card, domainUrl: string): WorkItem => {
     name: c.name,
     stageDates: c['stagingDates'],
     domainUrl,
-    type: '',
+    type: 'Card',
   });
 };
 
