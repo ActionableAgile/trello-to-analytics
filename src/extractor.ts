@@ -16,7 +16,7 @@ class TrelloExtractor {
     this.key = config.key;
     this.token = config.token;
     this.workflow = config.workflow;
-    this.typesConfig = config.types;
+    this.typesConfig = config.types || { default: 'Card', labels: [] };
   }
 
   public async getAuthedUsersProjects(): Promise<Board[]> {
