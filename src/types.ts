@@ -4,14 +4,19 @@ export interface Board {
   url: string;
 };
 
+export interface Label {
+  name: string;
+}
+
 export interface Card {
   id: string;
   due: string;
   closed: boolean;
   name: string;
-  labels: Array<any>;
+  labels: Array<Label>;
   url: string;
   actions: Array<Action>;
+  shortUrl: string;
 };
 
 export interface Action {
@@ -31,6 +36,11 @@ export interface Workflow {
   [category: string]: Array<string>;
 };
 
+export interface TypesConfig {
+  default: string;
+  labels: Array<string>;
+};
+
 export interface ActionsByWorkflow {
   [workflowCategory: string]: Array<Action>;
 };
@@ -40,6 +50,7 @@ export interface TrelloConfig {
   workflow: Workflow;
   key: string;
   token: string;
+  types: TypesConfig;
 };
 
 export interface BoardHistory { 

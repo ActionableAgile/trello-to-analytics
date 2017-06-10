@@ -18,3 +18,9 @@ Workflow:
   Request: Request
   Doing: ['Doing', 'Waiting for delivery']
   Done: ["/[Ww]eek of"]
+
+# The types can be defined to map a Trello label to a work item type.  Cards without any matching labels will use the default specified.
+# NOTE: this section is OPTIONAL but if specified, you must have sub-properties set
+Types:
+  labels: ["SPIKE", "DESIGN"]
+  default: "Story"

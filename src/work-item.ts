@@ -3,25 +3,25 @@ export interface WorkItem {
   stageDates: Array<string>;
   name: string;
   type: string;
-  domainUrl: string;
+  url: string;
   attributes?: any;
 };
 
 // Doesn't do a whole lot at the moment, might consider getting rid of it.
-const createWorkItem = ({id, stageDates, name, type, domainUrl}): WorkItem => {
+const createWorkItem = ({id, stageDates, name, type, url}): WorkItem => {
   return ({
     id,
     stageDates,
     name,
     type,
-    domainUrl,
+    url,
   });
 };
 
 const workItemToCSV = (workItem: WorkItem) => {
   let s = '';
   s += `${workItem.id},`;
-  s += `${workItem.domainUrl}/${workItem.id},`;
+  s += `${workItem.url},`;
   s += `${(cleanString(workItem.name))}`;
   workItem.stageDates.forEach(stageDate => s += `,${stageDate}`);
   s += `,${workItem.type}`;
