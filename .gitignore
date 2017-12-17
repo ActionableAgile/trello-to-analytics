@@ -6,3 +6,4 @@ dist
 config.yaml
 .vscode
 output.csv
+yarn-error.log
