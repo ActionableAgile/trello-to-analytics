@@ -3,12 +3,20 @@
         "module": "commonjs",
         "target": "es5",
         "outDir": "dist",
-        "noImplicitAny": false,
+        "moduleResolution": "node",
+        "rootDir": "src",
         "sourceMap": true,
+        "noImplicitAny": false,
+        "types": [
+            "node"
+        ],
         "lib": [
             "dom",
             "es6",
             "es7"
         ]
-    }
+    },
+    "exclude": [
+        "./test/**/*"
+    ]
 }

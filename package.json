@@ -9,6 +9,9 @@
   },
   "author": "John Johnson <johnrjj@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "tsc && node dist/cli.js"
+  },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "js-yaml": "^3.7.0",
@@ -18,13 +21,14 @@
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
-    "@types/isomorphic-fetch": "^0.0.31",
+    "@types/isomorphic-fetch": "^0.0.34",
     "@types/js-yaml": "^3.5.28",
     "@types/mocha": "^2.2.33",
     "@types/progress": "^1.1.28",
     "@types/ramda": "^0.0.2",
     "@types/yargs": "^6.3.3",
     "chai": "^3.5.0",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "typescript": "^2.6.2"
   }
 }

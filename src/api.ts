@@ -11,12 +11,12 @@ interface IOptions {
 const API_VERSION = '1';
 
 const getJsonFromTrelloApi = async (url: string): Promise<any> => {
-  const response: Response = await fetch(url, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-  });
+
+  const headers = new Headers();
+  headers.append('Accept', 'application/json');
+  headers.append('Content-Type', 'application/json');
+
+  const response: Response = await fetch(url, { headers });
   return await response.json();
 };
 
