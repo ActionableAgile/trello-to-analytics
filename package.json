@@ -10,11 +10,15 @@
   "author": "John Johnson <johnrjj@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "tsc && node dist/cli.js"
+    "start": "tsc && node dist/cli.js",
+    "build-bundle": "tsc && browserify dist/cli.js --node --standalone rawjs > dist/trello-to-analytics.js",
+    "build-executable:windows": "nexe -i dist/cli.js -o jira-to-analytics.exe --flags",
+    "build-executable:mac": "nexe -i dist/trello-to-analytics.js -o trello-to-analytics.mac"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "js-yaml": "^3.7.0",
+    "nexe": "^2.0.0-rc.26",
     "progress": "^1.1.8",
     "ramda": "^0.22.1",
     "yargs": "^6.5.0"
